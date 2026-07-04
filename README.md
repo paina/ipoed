@@ -78,7 +78,7 @@ IPOED_OPTS="--lan-addr4 192.168.1.1/24"
 `IPOED_OPTS` には以下の設定をすることができます。
 
 ```shell
-    -i, --lan-iid <LAN_IID>        LAN IID (Default: SLAAC)
+    -i, --lan-iid <LAN_IID>        LAN IID (Default: EUI-64)
     -s, --dns-server-self          Set DHCPv6 DNS server self
     -4, --lan-addr4 <LAN_ADDR4>    LAN IPv4 address (Default none)
     -H, --disable-hb46pp           Disable HB46PP
@@ -90,7 +90,7 @@ IPOED_OPTS="--lan-addr4 192.168.1.1/24"
 
 LAN 側に設定する IPv4 アドレスを変えたいときは `--lan-addr4` の IPv4 アドレスを書き換えます。
 
-LAN 側に設定する IPv6 アドレスの IID (インターフェース ID) をデフォルトの SLAAC (EUI-64) から変更する場合は以下の例のように `IPOED_OPTS` に `--lan-iid` を追加します。
+LAN 側に設定する IPv6 アドレスの IID (インターフェース ID) をデフォルトの EUI-64 から変更する場合は以下の例のように `IPOED_OPTS` に `--lan-iid` を追加します。
 
 ```shell
 IPOED_OPTS="--lan-addr4 192.168.1.1/24 --lan-iid ::1"
