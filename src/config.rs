@@ -13,7 +13,7 @@ pub fn usage() {
     println!("Options:");
     println!("    -w, --wan-if <WAN_IF>          WAN interface (Required)");
     println!("    -l, --lan-if <LAN_IF>          LAN interface (Required)");
-    println!("    -i, --lan-iid <LAN_IID>        LAN IID (Default: SLAAC)");
+    println!("    -i, --lan-iid <LAN_IID>        LAN IID (Default: EUI-64)");
     println!("    -s, --dns-server-self          Set DHCPv6 DNS server self");
     println!("    -4, --lan-addr4 <LAN_ADDR4>    LAN IPv4 address (Default none)");
     println!("    -H, --disable-hb46pp           Disable HB46PP");
