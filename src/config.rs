@@ -21,6 +21,7 @@ pub fn usage() {
     println!("    -p, --hb46pp-pass <PASS>       HB46PP pass");
     println!("    -e, --hook-path <HOOK_PATH>    Hook path");
     println!("    -d, --debug                    Enable debug");
+    println!("        --no-resolved              Disable systemd-resolved integration");
     println!("    -h, --help                     Print help");
     println!("");
 }
@@ -36,6 +37,7 @@ pub struct Config {
     pub hb46pp_pass: Option<String>,
     pub hook_path: String,
     pub debug: bool,
+    pub no_resolved: bool,
 }
 
 impl Default for Config {
@@ -51,6 +53,7 @@ impl Default for Config {
             hb46pp_pass: None,
             hook_path: DEFAULT_HOOK_PATH.to_string(),
             debug: false,
+            no_resolved: false,
         }
     }
 }
@@ -123,6 +126,9 @@ impl Config {
                 }
                 "-d" | "--debug" => {
                     conf.debug = true;
+                }
+                "--no-resolved" => {
+                    conf.no_resolved = true;
                 }
                 "-h" | "--help" => {
                     return Err(String::new());

@@ -55,6 +55,7 @@ pub struct Context {
     disable_hb46pp: bool,
     hook_path: String,
     debug: bool,
+    no_resolved: bool,
     //
     pub ch_tx: mpsc::Sender<IpoedMsg>,
     pub ch_rx: mpsc::Receiver<IpoedMsg>,
@@ -191,6 +192,7 @@ impl Context {
             disable_hb46pp: conf.disable_hb46pp,
             hook_path: conf.hook_path,
             debug: conf.debug,
+            no_resolved: conf.no_resolved,
             //
             ch_tx: ch_tx,
             ch_rx: ch_rx,
@@ -262,7 +264,7 @@ impl Context {
         if !utils::ipv6_forwarding(&self.lan_if_name) {
             return Err(format!("LAN interface is not forwarding"));
         }
-        if !std::path::Path::new("/etc/systemd/resolved.conf.d").is_dir() {
+        if !self.no_resolved && !std::path::Path::new("/etc/systemd/resolved.conf.d").is_dir() {
             return Err(format!(
                 "Directory /etc/systemd/resolved.conf.d does not exist"
             ));
@@ -502,7 +504,9 @@ impl Context {
             self.prefix_run = self.prefix_can.clone();
             self.hook_req(hook::HookEvent::Ipv6Up, None, Some(lan_addr.clone()));
         }
-        utils::resolved_conf_update(&self.dns_servers, &self.dns_searchs);
+        if !self.no_resolved {
+            utils::resolved_conf_update(&self.dns_servers, &self.dns_searchs);
+        }
         self.commit_hb46pp()
     }
 
