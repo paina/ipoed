@@ -594,11 +594,11 @@ impl LinkinfoAttr {
         if pos != bytes.len() {
             return Err(format!("Invalid attribute length"));
         }
-        let kind = if let Some(kind) = kind {
-            kind
-        } else {
-            return Err(format!("IFLA_INFO_KIND not found"));
-        };
+        // IFLA_LINKINFO carries IFLA_INFO_KIND only for the link's own type
+        // (e.g. dummy, vrf). A VRF slave interface has IFLA_LINKINFO for
+        // IFLA_INFO_SLAVE_KIND alone, so treat a missing INFO_KIND as
+        // Unknown rather than a parse failure.
+        let kind = kind.unwrap_or_default();
         match kind.as_ref() {
             Ip6tnlLinkinfo::KIND => Ok(LinkinfoAttr::Ip6tnl(Ip6tnlLinkinfo::parse(bytes)?)),
             _ => Ok(LinkinfoAttr::Unknown(UnknownLinkinfo::parse(bytes)?)),
